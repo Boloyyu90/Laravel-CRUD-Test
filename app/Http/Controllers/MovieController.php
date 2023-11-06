@@ -42,13 +42,18 @@ class MovieController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'director' => 'required',
-            'duration' => 'required'
+            'duration' => 'required',
+            'image' => 'required'
         ]);
+        $file = $request->file('image');
+        $image = $file->getClientOriginalName();
+        $file->move(public_path('public/images'), $image);
         //Fungsi Simpan Data ke dalam Database
         Movie::create([
             'title' => $request->title,
             'director' => $request->director,
-            'duration' => $request->duration
+            'duration' => $request->duration,
+            'image' => $image
         ]);
         try {
             return redirect()->route('movie.index');
@@ -77,26 +82,41 @@ class MovieController extends Controller
     public function update(Request $request, $id)
     {
         $movie = Movie::find($id);
-        //validate form
+
+        // Validasi Formulir
         $this->validate($request, [
             'title' => 'required',
             'director' => 'required',
-            'duration' => 'required'
+            'duration' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Gambar menjadi opsional
         ]);
-        $movie->update([
-            'title' => $request->title,
-            'director' => $request->director,
-            'duration' => $request->duration
-        ]);
-        return redirect()->route('movie.index')->with(['success' => 'Data 
-Berhasil Diubah!']);
+
+        // Periksa apakah ada gambar baru yang diunggah
+        if ($request->hasFile('image')) {
+            // Jika ada gambar baru yang diunggah, unggah dan simpan gambar baru
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('public/images'), $imageName);
+
+            // Hapus gambar lama jika ada
+            if (file_exists(public_path('public/images/' . $movie->image))) {
+                unlink(public_path('public/images/' . $movie->image));
+            }
+
+            $movie->image = $imageName;
+        }
+
+        // Update data lainnya
+        $movie->title = $request->title;
+        $movie->director = $request->director;
+        $movie->duration = $request->duration;
+
+        // Simpan perubahan
+        $movie->save();
+
+        return redirect()->route('movie.index')->with(['success' => 'Data Berhasil Diubah!']);
     }
-    /**
-     * destroy
-     *
-     * @param int $id
-     * @return void
-     */
+
 
     public function destroy($id)
     {

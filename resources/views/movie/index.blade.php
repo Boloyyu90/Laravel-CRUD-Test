@@ -34,6 +34,7 @@
               <table class="table table-hover textnowrap">
                 <thead>
                   <tr>
+                    <th class="text-center">Image</th>
                     <th class="text-center">Title</th>
                     <th class="text-center">Director</th>
                     <th class="text-center">Duration/min</th>
@@ -43,6 +44,7 @@
                 <tbody>
                   @forelse ($movie as $item)
                   <tr>
+                    <td> <img style="width: 50px; justify-content: center; " src="{{ asset('public/images/' . $item->image) }}" alt=""></td>
                     <td class="text-center">{{ $item->title }}</td>
                     <td class="text-center">{{ $item->director }}</td>
                     <td class="text-center">{{ $item->duration }}</td>

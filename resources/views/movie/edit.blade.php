@@ -34,6 +34,17 @@
               @method('PUT')
               <div class="form-row">
                 <div class="form-group col-md-12">
+                  <label class="font-weight-bold">Image</label>
+                  <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" accept="image/*">
+                  @error('image')
+                  <div class="invalid-feedback">
+                    {{ $message }}
+                  </div>
+                  @enderror
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-12">
                   <label class="font-weight-bold">Title</label>
                   <input type="text" class="form-control 
 @error('title') is-invalid @enderror" name="title" value="{{ old('title', 

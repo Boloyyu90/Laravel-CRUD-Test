@@ -4,13 +4,13 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0">Tambah Movie</h1>
+        <h1 class="m-0">Tambah Ticket</h1>
       </div>
       <!-- /.col -->
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item">
-            <a href="#">Movie</a>
+            <a href="#">Ticket</a>
           </li>
           <li class="breadcrumb-item active">Create</li>
         </ol>
@@ -29,7 +29,7 @@
       <div class="col-12">
         <div class="card">
           <div class="card-body">
-            <form action="{{ route('movie.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('ticket.store') }}" method="POST" enctype="multipart/form-data">
               @csrf
               <div class="form-row">
               </div>
