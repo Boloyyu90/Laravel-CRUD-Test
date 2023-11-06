@@ -44,7 +44,7 @@
                 <tbody>
                   @forelse ($movie as $item)
                   <tr>
-                    <td> <img style="width: 50px; justify-content: center; " src="{{ asset('public/images/' . $item->image) }}" alt=""></td>
+                    <td> <img style="width:150px ;height:100%; overflow: hidden;" src="{{ asset('public/images/' . $item->image) }}" alt=""></td>
                     <td class="text-center">{{ $item->title }}</td>
                     <td class="text-center">{{ $item->director }}</td>
                     <td class="text-center">{{ $item->duration }}</td>

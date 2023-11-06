@@ -4,7 +4,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0">Tambah Ticket</h1>
+        <h1 class="m-0">Edit Ticket</h1>
       </div>
       <!-- /.col -->
       <div class="col-sm-6">
@@ -12,7 +12,7 @@
           <li class="breadcrumb-item">
             <a href="#">Ticket</a>
           </li>
-          <li class="breadcrumb-item active">Create</li>
+          <li class="breadcrumb-item active">Edit</li>
         </ol>
       </div>
       <!-- /.col -->
@@ -29,12 +29,13 @@
       <div class="col-12">
         <div class="card">
           <div class="card-body">
-            <form action="{{ route('ticket.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('ticket.update', $ticket->id)}}" method="POST" enctype="multipart/form-data">
               @csrf
+              @method('PUT')
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label class="font-weight-bold">Class</label>
-                  <input type="text" class="form-control @error('class') is-invalid @enderror" name="class" value="{{ old('class') }}" placeholder="Masukkan Nama Ticket">
+                  <input type="text" class="form-control @error('class') is-invalid @enderror" name="class" value="{{ old('class', $ticket->class) }}" placeholder="Masukkan Nama Ticket">
                   @error('class')
                   <div class="invalid-feedback">
                     {{ $message }}
@@ -43,7 +44,7 @@
                 </div>
                 <div class="form-group col-md-6">
                   <label class="font-weight-bold">price</label>
-                  <input type="text" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') }}" placeholder="Masukkan price">
+                  <input type="text" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price', $ticket->price) }}" placeholder="Masukkan price">
                   @error('price')
                   <div class="invalid-feedback">
                     {{ $message }}
@@ -55,17 +56,14 @@
                 <label class="font-weight-bold">Movie</label>
                 <select id="inputState" class="form-select" name="id_movie">
                   <option selected value="">Pilih Movie</option>
-                  @forelse($movie as $item)
+                  @foreach($movies as $movie)
                   @php
-                  $isSelected = (old('movie') == $item->id) ? 'selected' : '';
+                  $isSelected = (old('id_movie', $ticket->id_movie) == $movie->id) ? 'selected' : '';
                   @endphp
-                  <option value="{{ $item->id }}" {{ $isSelected }}>{{ $item->title }}</option>
-                  @empty
-                  <option disabled>Data Movies belum tersedia</option>
-                  @endforelse
+                  <option value="{{ $movie->id }}" {{ $isSelected }}>{{ $movie->title }}</option>
+                  @endforeach
                 </select>
               </div>
-
               <br>
               <button type="submit" class="btn btn-md btn-primary">SIMPAN</button>
             </form>
